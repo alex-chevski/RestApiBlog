@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use Alex\RestApiBlog\Database;
+use Alex\RestApiBlog\Route\posts\Index;
+use DevCoder\DotEnv;
+use DI\ContainerBuilder;
 use Slim\Factory\AppFactory;
 
 // use Twig\Environment;
@@ -14,12 +16,26 @@ use Slim\Factory\AppFactory;
 // $loader = new FilesystemLoader('../templates');
 // $view = new Environment($loader);
 
-$app = AppFactory::create();
+$builder = new ContainerBuilder();
 
-$app->get('/', function (Request $request, Response $response, $args) {
-    $response->getBody()->write('');
+$builder->addDefinitions(__DIR__.'/../config/di.php');
 
-    return $response;
-});
+(new DotEnv(__DIR__.'/../.env'))->load();
+
+$container = $builder->build();
+
+// AppFactory::setContainer($container);
+
+$app = AppFactory::createFromContainer($container);
+
+// $container->get(Database::class);
+// $app = AppFactory::create();
+// print_r(Database::class);
+
+// $connection = $container->get(Database::class)->getConnection();
+
+$app->addErrorMiddleware(true, true, true);
+
+$app->get('/posts', Index::class.':execute');
 
 $app->run();
