@@ -4,38 +4,33 @@ declare(strict_types=1);
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-use Alex\RestApiBlog\Database;
+use Alex\RestApiBlog\Route\posts\Create;
+use Alex\RestApiBlog\Route\posts\Delete;
 use Alex\RestApiBlog\Route\posts\Index;
-use DevCoder\DotEnv;
-use DI\ContainerBuilder;
+use Alex\RestApiBlog\Route\posts\Read;
+use Alex\RestApiBlog\Route\posts\ReadOne;
+use Alex\RestApiBlog\Route\posts\Update;
 use Slim\Factory\AppFactory;
+use Slim\Middleware\MethodOverrideMiddleware;
 
-// use Twig\Environment;
-// use Twig\Loader\FilesystemLoader;
-
-// $loader = new FilesystemLoader('../templates');
-// $view = new Environment($loader);
-
-$builder = new ContainerBuilder();
-
-$builder->addDefinitions(__DIR__.'/../config/di.php');
-
-(new DotEnv(__DIR__.'/../.env'))->load();
-
-$container = $builder->build();
-
-// AppFactory::setContainer($container);
+$container = require_once __DIR__.'/../bootstrap/container.php';
 
 $app = AppFactory::createFromContainer($container);
 
-// $container->get(Database::class);
-// $app = AppFactory::create();
-// print_r(Database::class);
-
-// $connection = $container->get(Database::class)->getConnection();
-
 $app->addErrorMiddleware(true, true, true);
 
-$app->get('/posts', Index::class.':execute');
+$app->add(MethodOverrideMiddleware::class);
+
+$app->get('/', Index::class);
+
+$app->post('/posts', Create::class);
+
+$app->get('/posts', Read::class);
+
+$app->get('/posts/{url_key}', ReadOne::class);
+
+$app->patch('/posts/{url_key}', Update::class);
+
+$app->delete('/posts/{url_key}', Delete::class);
 
 $app->run();
