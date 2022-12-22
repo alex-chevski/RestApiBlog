@@ -20,6 +20,7 @@ class Delete
         $post_id = htmlspecialchars($args['url_key']);
 
         $exist_post = $this->post->getByUrlKey($post_id);
+
         if ($exist_post) {
             $this->post->delete($post_id);
             $out = json_encode(

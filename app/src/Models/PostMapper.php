@@ -47,12 +47,14 @@ class PostMapper
         ]);
     }
 
-    public function get(int $limit): ?array
+    public function get(int $limit, string $keywords): ?array
     {
         $statement = $this->getConnection()->prepare(
-            "SELECT * FROM posts ORDER BY published_date DESC LIMIT {$limit}"
+            "SELECT * FROM posts WHERE title like :keywords ORDER BY published_date DESC LIMIT {$limit}"
         );
-        $statement->execute();
+        $statement->execute([
+            'keywords' => "%{$keywords}%",
+        ]);
 
         return $statement->fetchAll();
     }

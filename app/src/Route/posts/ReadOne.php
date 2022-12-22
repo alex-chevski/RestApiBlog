@@ -19,13 +19,14 @@ class ReadOne
 
     public function __invoke(Request $request, Response $response, array $args = [])
     {
-        $post = json_encode($this->posts->getByUrlKey($args['url_key']), JSON_UNESCAPED_UNICODE);
+        $raw_temp = htmlspecialchars($args['url_key']);
+        $post = json_encode($this->posts->getByUrlKey($raw_temp), JSON_UNESCAPED_UNICODE);
 
         // Если запись не найдена
         if (!$post) {
             $post = json_encode([
                 'data' => [],
-                'code' => 1,
+                'status' => 'false',
                 'message' => 'Запись не найдена или была удалена',
             ]);
         }

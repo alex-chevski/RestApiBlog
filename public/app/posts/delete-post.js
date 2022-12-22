@@ -23,10 +23,8 @@ jQuery(($) => {
             type: 'DELETE',
             dataType: 'json',
             success: (result) => {
-              console.log(result);
-              console.log(result['status']);
               if (result['status'] === true) {
-                showProducts(result);
+                showPosts(result);
               } else {
                 $('.alert').remove();
                 $('#page-content').append(

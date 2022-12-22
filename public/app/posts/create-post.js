@@ -41,11 +41,11 @@ jQuery(($) => {
       $('#page-content').html(create_post_html);
 
       // Изменяем тайтл
-      changePageTitle('Создание товара');
+      changePageTitle('Создание поста');
     });
   });
 
-  // Будет работать, если создана форма товара
+  // Будет работать, если создана форма поста
   $(document).on('submit', '#create-post-form', function () {
     // Получение данных формы
     let form_data = JSON.stringify($(this).serializeObject());
@@ -58,7 +58,7 @@ jQuery(($) => {
       data: form_data,
       success: (result) => {
         if (result['status'] === true) {
-          showProducts(result);
+          showPosts(result);
         } else {
           $('.alert').remove();
           $('#page-content').append(

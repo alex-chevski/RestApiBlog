@@ -19,7 +19,10 @@ class Read
 
     public function __invoke(Request $request, Response $response)
     {
-        $posts = $this->posts->get(3);
+        $keywords = $request->getQueryParam('keywords');
+
+        $keywords = $keywords ? $keywords : '';
+        $posts = $this->posts->get(3, $keywords);
         $posts = json_encode($posts, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         $response->getBody()->write($posts);

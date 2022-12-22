@@ -43,7 +43,7 @@ jQuery(($) => {
                 <td>
 
                     <button type="submit" class="btn btn-info">
-                        <span class="glyphicon glyphicon-edit"></span> Обновить товар
+                        <span class="glyphicon glyphicon-edit"></span> Обновить пост
                     </button>
                 </td>
             </tr>
@@ -69,7 +69,7 @@ jQuery(($) => {
           success: (result) => {
             if (result['status'] === true) {
               // Товар был успешно обновлён, возврат к списку товаров
-              showProducts(result);
+              showPosts(result);
             } else {
               //remove чтобы не выходил блок при повторном нажатии
               $('.alert').remove();
