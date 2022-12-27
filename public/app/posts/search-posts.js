@@ -12,8 +12,10 @@ jQuery(($) => {
         // Шаблон в products.js
         readPostsTemplate(result, keywords);
         // Изменяем title
-        changePageTitle('Поиск товаров: ' + keywords);
+        changePageTitle('Поиск постов: ' + keywords);
       },
+    }).fail(function (data) {
+      showError(data.responseJSON.message);
     });
 
     // Предотвращаем перезагрузку всей страницы

@@ -29,25 +29,47 @@ class Update
 
         // если ошибок нет
         if (!$err) {
-            $this->post->update($requestData, $url_key);
-            $out = json_encode(
-                [
-                    'status' => true,
-                    'message' => "Пост {$requestData['title']} успешно обновлен",
-                ],
-                JSON_PRETTY_PRINT,
-            );
-        } else {
+            // если запись обновилась
+            if ($this->post->update($requestData, $url_key)) {
+                $out = json_encode(
+                    [
+                        'status' => true,
+                        'message' => "Пост {$requestData['title']} успешно обновлен",
+                    ],
+                    JSON_PRETTY_PRINT,
+                    JSON_UNESCAPED_UNICODE
+                );
+                $response->getBody()->write($out);
+
+                return $response->withHeader('Content-Type', 'application\json')
+                    ->withStatus(201)
+                ;
+            }
             $out = json_encode(
                 [
                     'status' => false,
-                    'message' => implode('', array_values($err)), ],
+                    'message' => 'Пост невозможно обновить',
+                ],
                 JSON_PRETTY_PRINT,
+                JSON_UNESCAPED_UNICODE
             );
+            $response->getBody()->write($out);
+
+            return $response->withHeader('Content-Type', 'application\json')
+                ->withStatus(503)
+            ;
         }
+        $out = json_encode(
+            [
+                'status' => false,
+                'message' => implode('', array_values($err)), ],
+            JSON_PRETTY_PRINT,
+        );
 
         $response->getBody()->write($out);
 
-        return $response->withHeader('Content-Type', 'application\json');
+        return $response->withHeader('Content-Type', 'application\json')
+            ->withStatus(400)
+        ;
     }
 }

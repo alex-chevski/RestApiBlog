@@ -24,27 +24,49 @@ class Create
 
         // проверяем
         $err = $this->validator->validate($requestData);
-        // если ошибок нет
+        // если ошибок нет данные полные и заголовок уникальный
         if (!$err) {
-            $this->post->create($requestData);
-            $out = json_encode(
-                [
-                    'status' => true,
-                    'message' => "Пост {$requestData['title']} успешно  создан",
-                ],
-                JSON_PRETTY_PRINT,
-            );
-        } else {
+            // если ошибок в базе данных и мы создали пост
+            if ($this->post->create($requestData)) {
+                $out = json_encode(
+                    [
+                        'status' => true,
+                        'message' => "Пост {$requestData['title']} успешно  создан",
+                    ],
+                    JSON_PRETTY_PRINT,
+                );
+                $response->getBody()->write($out);
+
+                return $response->withHeader('Content-Type', 'application\json')
+                    ->withStatus(201)
+                ;
+            }
             $out = json_encode(
                 [
                     'status' => false,
-                    'message' => implode('', array_values($err)), ],
-                JSON_PRETTY_PRINT,
+                    'message' => 'Невозможно создать товар',
+                ],
+                JSON_UNESCAPED_UNICODE,
+                JSON_PRETTY_PRINT
             );
+
+            $response->getBody()->write($out);
+
+            return $response->withHeader('Content-Type', 'application\json')
+                ->withStatus(503)
+            ;
         }
 
+        $out = json_encode(
+            [
+                'status' => false,
+                'message' => implode('', array_values($err)), ],
+            JSON_PRETTY_PRINT,
+        );
         $response->getBody()->write($out);
 
-        return $response->withHeader('Content-Type', 'application\json');
+        return $response->withHeader('Content-Type', 'application\json')
+            ->withStatus(400)
+        ;
     }
 }

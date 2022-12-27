@@ -6,11 +6,15 @@ namespace Alex\RestApiBlog\Route\posts;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-
 use Twig\Environment;
 
 class Index
 {
+    /**
+     * @param private Environment $view
+     *
+     * @return mixed
+     */
     public function __construct(private Environment $view)
     {
         $this->view = $view;

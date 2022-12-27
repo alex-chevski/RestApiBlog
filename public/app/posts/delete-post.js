@@ -1,3 +1,4 @@
+import { showPosts } from './read-posts.js';
 jQuery(($) => {
   $(document).on('click', '.delete-post-button', function () {
     const post_id = $(this).attr('data-id');
@@ -36,7 +37,9 @@ jQuery(($) => {
               }
             },
             error: (xhr, resp, text) => {
-              console.log(xhr, resp, text);
+              showError(xhr.responseJSON.message);
+
+              // console.log(xhr, resp, text);
             },
           });
         }

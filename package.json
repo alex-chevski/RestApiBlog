@@ -1,0 +1,21 @@
+{
+  "type": "module",
+  "name": "restapiblog",
+  "description": "RestApiBlog",
+  "version": "1.0.0",
+  "main": "./public/app/assets/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frostep/RestApiBlog.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/frostep/RestApiBlog/issues"
+  },
+  "homepage": "https://github.com/frostep/RestApiBlog#readme",
+  "devDependencies": {}
+}

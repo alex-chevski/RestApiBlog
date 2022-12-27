@@ -5,7 +5,10 @@
   "autoload": {
     "psr-4": {
       "Alex\\RestApiBlog\\": "app/src/"
-    }
+    },
+    "files": [
+      "app/src/utilities/getPaging.php"
+    ]
   },
   "authors": [
     {

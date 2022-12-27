@@ -7,6 +7,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 use Alex\RestApiBlog\Route\posts\Create;
 use Alex\RestApiBlog\Route\posts\Delete;
 use Alex\RestApiBlog\Route\posts\Index;
+// use Alex\RestApiBlog\Route\posts\PostsPage;
 use Alex\RestApiBlog\Route\posts\Read;
 use Alex\RestApiBlog\Route\posts\ReadOne;
 use Alex\RestApiBlog\Route\posts\Update;
@@ -25,12 +26,14 @@ $app->get('/', Index::class);
 
 $app->post('/posts', Create::class);
 
-$app->get('/posts', Read::class);
-
-$app->get('/posts/{url_key}', ReadOne::class);
+$app->get('/posts', Read::class)->setName('getPosts');
 
 $app->patch('/posts/{url_key}', Update::class);
 
 $app->delete('/posts/{url_key}', Delete::class);
+
+$app->get('/posts/{url_key}', ReadOne::class);
+
+// $app->get('/blog/{page}', PostsPage::class)->setName('pagination');
 
 $app->run();

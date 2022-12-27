@@ -1,3 +1,5 @@
+import { showPosts } from './read-posts.js';
+import { showError } from '../function/js/showError.js';
 jQuery(($) => {
   $(document).on('click', '.update-post-button', function () {
     const id = $(this).attr('data-id');
@@ -70,21 +72,13 @@ jQuery(($) => {
             if (result['status'] === true) {
               // Товар был успешно обновлён, возврат к списку товаров
               showPosts(result);
-            } else {
-              //remove чтобы не выходил блок при повторном нажатии
-              $('.alert').remove();
-
-              $('#page-content').append(
-                `<div class="alert alert-danger">
-					<p id="out_err"></p>
-				</div>`
-              );
-              result['message'] ? $('#out_err').html(result['message']) : '';
             }
           },
           error: (xhr, resp, text) => {
+            showError(xhr.responseJSON.message);
+
             // Вывод ошибки в консоль
-            console.log(xhr, resp, text);
+            // console.log(xhr, resp, text);
           },
         });
         return false;

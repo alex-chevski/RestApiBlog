@@ -44,6 +44,8 @@ jQuery(($) => {
 
       // Изменяем заголовок страницы
       changePageTitle('Просмотр поста');
+    }).fail(function (data) {
+      showError(data['message']);
     });
   });
 });
