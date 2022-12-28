@@ -9,6 +9,14 @@ jQuery(($) => {
         <span class="glyphicon glyphicon-list"></span> Все Посты
     </div>
 
+	<div class="center-block">
+
+		<img class="img-thumbnail "src="` +
+        data.image_path +
+        `" alt="image_blog" width="75%" height="75% "/>
+
+	</div>
+
 	<!-- Полные данные о товаре будут показаны в этой таблице -->
 	<table class="table table-bordered table-hover">
 

@@ -16,13 +16,14 @@ class PostMapper
     public function create(array $data): bool
     {
         $stm = $this->getConnection()->prepare(
-            'INSERT INTO posts (title, url_key, content, description, published_date) VALUES(:title, :url_key, :content, :description, :published_date)'
+            'INSERT INTO posts (title, url_key, image_path, content, description, published_date) VALUES(:title, :url_key, :image_path,  :content, :description, :published_date)'
         );
 
         return $stm->execute(
             [
                 'title' => $data['title'],
                 'url_key' => str_replace(' ', '-', $data['title']),
+                'image_path' => $data['post_image'],
                 'content' => $data['content'],
                 'description' => $data['description'],
                 'published_date' => date('Y-m-d H:i:s'),

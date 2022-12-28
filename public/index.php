@@ -22,9 +22,9 @@ $app->addErrorMiddleware(true, true, true);
 
 $app->add(MethodOverrideMiddleware::class);
 
-$app->get('/', Index::class);
-
 $app->post('/posts', Create::class);
+
+$app->get('/', Index::class);
 
 $app->get('/posts', Read::class)->setName('getPosts');
 

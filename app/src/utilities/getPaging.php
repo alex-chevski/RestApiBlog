@@ -28,7 +28,7 @@ function getPaging($page, $total_rows, $records_per_page, $page_url)
 
     $page_count = 0;
 
-    for ($x = $initial_num; $x < $condition_limit_num; ++$x) {
+    for ($x = $initial_num; $x < $condition_limit_num - 1; ++$x) {
         if (($x > 0) && ($x <= $total_rows)) {
             $paging_arr['pages'][$page_count]['page'] = $x;
             $paging_arr['pages'][$page_count]['url'] = "{$page_url}page={$x}";

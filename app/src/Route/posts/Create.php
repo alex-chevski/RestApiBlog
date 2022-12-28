@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Alex\RestApiBlog\Route\posts;
 
+use Alex\RestApiBlog\Image;
 use Alex\RestApiBlog\Models\PostMapper;
-use Alex\RestApiBlog\validation\Validator;
+use Alex\RestApiBlog\validation\PostsValidator;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class Create
 {
-    public function __construct(private PostMapper $post, private Validator $validator)
+    public function __construct(private PostMapper $post, private PostsValidator $validator)
     {
         $this->post = $post;
         $this->validator = $validator;
@@ -22,11 +23,24 @@ class Create
         // инЪекция
         $requestData = array_map(fn ($val) => htmlspecialchars(strip_tags($val)), $request->getParsedBody());
 
-        // проверяем
-        $err = $this->validator->validate($requestData);
+        $uploadFile = $request->getUploadedFiles();
+
+        // проверяем данные формы
+        $err = $this->validator->validateData($requestData);
         // если ошибок нет данные полные и заголовок уникальный
+
+        // проверяем файл который прикрепил пользователь
+        empty($err) ? $err = $this->validator->validateImg($uploadFile['post_image']) : $err;
+
         if (!$err) {
-            // если ошибок в базе данных и мы создали пост
+            // если ошибок в базе данных нет
+
+            // сохраняем файл если нет ошибок
+            Image::saveImage($uploadFile['post_image']);
+
+            $requestData['post_image'] = Image::getPathImage();
+
+            // добавление в базу данных формы
             if ($this->post->create($requestData)) {
                 $out = json_encode(
                     [

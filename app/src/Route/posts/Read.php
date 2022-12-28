@@ -53,7 +53,7 @@ class Read
         }
         // иначе  постов нету
 
-        $response->getBody()->write(json_encode(['message' => 'Посты не найдены'], JSON_UNESCAPED_UNICODE, JSON_PRETTY_PRINT));
+        $response->getBody()->write(json_encode($posts, JSON_UNESCAPED_UNICODE, JSON_PRETTY_PRINT));
         // здесь можно сделать перенаправление я сделал в js
 
         return $response->withHeader('Content-Type', 'application/json;charset=UTF-8')

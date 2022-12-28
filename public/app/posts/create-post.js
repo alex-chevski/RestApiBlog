@@ -27,6 +27,15 @@ jQuery(($) => {
             <td><textarea name="content" class="form-control" required></textarea></td>
 		</tr>
 
+		  <tr>
+			<td>Фотография</td>
+			<td>
+			<label for="formFileLg" class="form-label">Choose photo to upload</label>
+			<input type="file" name="post_image" class="form-control form-control-lg" accept="image/*">
+			</td>
+		  </tr>
+
+
         <!-- Кнопка отправки формы -->
         <tr>
             <td></td>
@@ -39,14 +48,6 @@ jQuery(($) => {
     </table>
 </form>`;
 
-      // <tr>
-      // 	<td>Фотография</td>
-      // 	<td>
-      // 	<label for="formFileLg" class="form-label">Choose photo to upload</label>
-      // 	<input type="file" name="post_image" class="form-control form-control-lg" accept=".jpg .jpeg .png">
-      // 	</td>
-      // </tr>
-
       // Вставка html в «page-content» нашего приложения
       $('#page-content').html(create_post_html);
 
@@ -55,50 +56,20 @@ jQuery(($) => {
     });
   });
 
-  $(document).on('change', 'input[type=file]', function () {
-    let form_data = this.files;
-    create_post_img(form_data);
-  });
-
   // Будет работать, если создана форма поста
   $(document).on('submit', '#create-post-form', function () {
-    // Получение данных формы
-    let form_data = JSON.stringify($(this).serializeObject());
-
-    // console.log(form_data);
-
-    // event.stopPropagation(); // остановка всех текущих JS событий
-    // event.preventDefault(); // остановка дефолтного события для текущего элемента - клик для <a> тега
-
-    // ничего не делаем если files пустой
-    // if (typeof files == 'undefined') console.log('Yes');
-
-    // создадим объект данных формы
-    // const data = [];
-
-    // // заполняем объект данных файлами в подходящем для отправки формате
-    // $.each(files, function (key, value) {
-    //   form_data += value.name;
-    //   form_data += value.size;
-
-    //тут остановился console log что выше выдает имя
-    // });
-
-    // Отправка данных формы в API
     $.ajax({
       url: 'http://10.0.2.10/posts',
       type: 'POST',
-      contentType: 'application/json, image/jpeg',
-      data: form_data,
+      contentType: false,
+      processData: false,
+      cache: false,
+      data: new FormData(this),
       success: (result) => {
-        if (result['status'] === true) {
-          showPosts(result);
-        }
+        showPosts(result);
       },
-      error: (xhr, resp, text) => {
+      error: (xhr) => {
         showError(xhr.responseJSON.message);
-        // Вывести ошибку в консоль
-        // console.log(xhr, resp, text);
       },
     });
     return false;

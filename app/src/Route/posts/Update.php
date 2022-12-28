@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Alex\RestApiBlog\Route\posts;
 
 use Alex\RestApiBlog\Models\PostMapper;
-use Alex\RestApiBlog\validation\Validator;
+use Alex\RestApiBlog\validation\PostsValidator;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class Update
 {
-    public function __construct(private PostMapper $post, private Validator $validator)
+    public function __construct(private PostMapper $post, private PostsValidator $validator)
     {
         $this->post = $post;
         $this->validator = $validator;
@@ -25,7 +25,7 @@ class Update
         $url_key = htmlspecialchars($args['url_key']);
 
         // проверяем
-        $err = $this->validator->validate($requestData);
+        $err = $this->validator->validateData($requestData);
 
         // если ошибок нет
         if (!$err) {

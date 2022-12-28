@@ -24,17 +24,7 @@ jQuery(($) => {
             type: 'DELETE',
             dataType: 'json',
             success: (result) => {
-              if (result['status'] === true) {
-                showPosts(result);
-              } else {
-                $('.alert').remove();
-                $('#page-content').append(
-                  `<div class="alert alert-danger">
-				<p id="out_err"></p>
-			</div>`
-                );
-                $('#out_err').html(result['message']);
-              }
+              showPosts(result);
             },
             error: (xhr, resp, text) => {
               showError(xhr.responseJSON.message);
