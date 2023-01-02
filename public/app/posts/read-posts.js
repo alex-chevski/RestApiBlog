@@ -4,6 +4,7 @@ import { showError } from '../function/js/showError.js';
 //все начинается отсюда
 jQuery(($) => {
   showPosts();
+
   $(document).on('click', '.read-posts-button', function () {
     showPosts();
   });

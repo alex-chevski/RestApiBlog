@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use Alex\RestApiBlog\Database;
+use Alex\RestApiBlog\Image;
+use Alex\RestApiBlog\Route\posts\Create;
 
 use function DI\autowire;
 use function DI\get;
@@ -19,6 +21,9 @@ return [
 
     Database::class => autowire()
         ->constructorParameter('connection', get(\PDO::class)),
+
+    Create::class => autowire()
+        ->constructorParameter('img', get(Image::class)),
 
     \PDO::class => autowire()
         ->constructor(

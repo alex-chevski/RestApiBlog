@@ -23,7 +23,7 @@ class PostMapper
             [
                 'title' => $data['title'],
                 'url_key' => str_replace(' ', '-', $data['title']),
-                'image_path' => $data['post_image'],
+                'image_path' => $data['image_path'],
                 'content' => $data['content'],
                 'description' => $data['description'],
                 'published_date' => date('Y-m-d H:i:s'),
@@ -31,7 +31,7 @@ class PostMapper
         );
     }
 
-    public function update(array $data, string $id_post)
+    public function update(array $data, string $id_post): bool
     {
         $stm = $this->getConnection()->prepare(
             'UPDATE posts SET title = :title, url_key = :url_key, content = :content, description = :description, published_date = :published_date WHERE url_key = :id_post'
@@ -51,11 +51,15 @@ class PostMapper
     {
         $start = ($limit * $page) - $limit;
         $statement = $this->getConnection()->prepare(
-            "SELECT * FROM posts WHERE title like :keywords ORDER BY published_date {$direction} LIMIT {$start},  {$limit}"
+            "SELECT * FROM posts WHERE title like :keywords ORDER BY published_date {$direction} LIMIT {$start}, {$limit}"
         );
 
         $statement->execute([
             'keywords' => "%{$keywords}%",
+
+            // 'direction' => $direction,
+            // 'start' => $start,
+            // 'limit' => $limit,
         ]);
 
         return $statement->fetchAll();
@@ -64,14 +68,14 @@ class PostMapper
     public function getByUrlKey(string $url_key)
     {
         $statement = $this->getConnection()->prepare(
-            'SELECT * FROM posts WHERE url_key = :url_key'
+            'SELECT * FROM posts WHERE url_key = :url_key LIMIT 1'
         );
 
         $statement->execute([
             'url_key' => $url_key,
         ]);
 
-        return array_shift($statement->fetchAll());
+        return $statement->fetch();
     }
 
     public function delete(string $post_id): bool

@@ -12,10 +12,11 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class Create
 {
-    public function __construct(private PostMapper $post, private PostsValidator $validator)
+    public function __construct(private PostMapper $post, private PostsValidator $validator, private Image $img)
     {
         $this->post = $post;
         $this->validator = $validator;
+        $this->img = $img;
     }
 
     public function __invoke(Request $request, Response $response): Response
@@ -33,12 +34,13 @@ class Create
         empty($err) ? $err = $this->validator->validateImg($uploadFile['post_image']) : $err;
 
         if (!$err) {
-            // если ошибок в базе данных нет
+            // если ошибок нет
 
-            // сохраняем файл если нет ошибок
-            Image::saveImage($uploadFile['post_image']);
+            // сохраняем фотографию
+            $this->img->saveImage($uploadFile['post_image']);
 
-            $requestData['post_image'] = Image::getPathImage();
+            // получаем путь фотографии
+            $requestData['image_path'] = $this->img->getPathImage();
 
             // добавление в базу данных формы
             if ($this->post->create($requestData)) {

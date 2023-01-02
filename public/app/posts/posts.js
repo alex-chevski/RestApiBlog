@@ -14,10 +14,10 @@ function readPostsTemplate(data = [], keywords = '') {
 		</div>
 	</form>
 
-		   <!-- При нажатии загружается форма создания поста -->
-        <div id="create-post" class="btn btn-primary pull-right m-b-15px create-post-button">
-            <span class="glyphicon glyphicon-plus"></span> Создать пост
-        </div>
+   <!-- При нажатии загружается форма создания поста -->
+	<div id="create-post" class="btn btn-primary pull-right m-b-15px create-post-button">
+		<span class="glyphicon glyphicon-plus"></span> Создать пост
+	</div>
 
   <!-- Начало таблицы -->
         <table class="table table-bordered table-hover">
