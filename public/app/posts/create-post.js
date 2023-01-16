@@ -3,12 +3,14 @@ import { showError } from '../function/js/showError.js';
 
 jQuery(($) => {
   $(document).on('click', '.create-post-button', () => {
-    $.getJSON('http://10.0.2.10/posts', (data) => {
-      let create_post_html = `
+    // $.getJSON('http://10.0.2.10/posts', (data) => {
+    let create_post_html = `
+
     <!-- Кнопка для показа всех товаров -->
     <div id="read-posts" class="btn btn-primary pull-right m-b-15px read-posts-button">
         <span class="glyphicon glyphicon-list"></span> Все посты
     </div>
+
 	<!-- html форма «Создание поста» -->
 <form id="create-post-form" action="#" method="post" border="0" enctype="multipart/form-data">
     <table class="table table-hover table-responsive table-bordered">
@@ -48,30 +50,29 @@ jQuery(($) => {
     </table>
 </form>`;
 
-      // Вставка html в «page-content» нашего приложения
-      $('#page-content').html(create_post_html);
+    // Вставка html в «page-content» нашего приложения
+    $('#page-content').html(create_post_html);
 
-      // Изменяем тайтл
-      changePageTitle('Создание поста');
-    });
+    // Изменяем тайтл
+    changePageTitle('Создание поста');
   });
+});
 
-  // Будет работать, если создана форма поста
-  $(document).on('submit', '#create-post-form', function () {
-    $.ajax({
-      url: 'http://10.0.2.10/posts',
-      type: 'POST',
-      contentType: false,
-      processData: false,
-      cache: false,
-      data: new FormData(this),
-      success: (result) => {
-        showPosts(result);
-      },
-      error: (xhr) => {
-        showError(xhr.responseJSON.message);
-      },
-    });
-    return false;
+// Будет работать, если создана форма поста
+$(document).on('submit', '#create-post-form', function () {
+  $.ajax({
+    url: 'http://10.0.2.10/posts',
+    type: 'POST',
+    contentType: false,
+    processData: false,
+    cache: false,
+    data: new FormData(this),
+    success: (result) => {
+      showPosts(result);
+    },
+    error: (xhr) => {
+      showError(xhr.responseJSON.message);
+    },
   });
+  return false;
 });

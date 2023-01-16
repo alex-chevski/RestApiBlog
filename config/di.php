@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
+use Alex\RestApiBlog\api\token\Token;
 use Alex\RestApiBlog\Database;
 use Alex\RestApiBlog\Image;
 use Alex\RestApiBlog\Route\posts\Create;
+use Alex\RestApiBlog\Route\users\SignIn;
 
 use function DI\autowire;
 use function DI\get;
@@ -24,6 +26,9 @@ return [
 
     Create::class => autowire()
         ->constructorParameter('img', get(Image::class)),
+
+    SignIn::class => autowire()
+        ->constructorParameter('token', get(Token::class)),
 
     \PDO::class => autowire()
         ->constructor(

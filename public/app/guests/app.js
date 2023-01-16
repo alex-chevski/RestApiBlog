@@ -17,10 +17,26 @@ jQuery(($) => {
 // Изменение заголовка страницы
 function changePageTitle(page_title) {
   // Изменение заголовка страницы
-  $('#page-title').text(page_title);
 
   // Изменение заголовка вкладки браузера
   document.title = page_title;
+
+  if (page_title === 'Все посты') {
+    $('#page-title').html(`
+   <h1 class="d-inline">${page_title}</h1>
+   <a class="btn btn-primary" id="login" role="button">
+   Войти
+   </a>
+   <button class="btn btn-primary" id="sign_up" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+   Регистрация
+   </button>
+  `);
+  } else {
+    $('#page-title').html(`
+   <h1 class="d-inline">${page_title}</h1>
+
+   `);
+  }
 }
 
 // Функция для создания значений формы в формате json

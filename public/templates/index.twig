@@ -35,17 +35,29 @@
     <!-- JS для всплывающих окон -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
 
-    <!-- основной файл скриптов -->
-    <script src="../app/assets/app.js"></script>
 
-    <!-- posts scripts -->
-    <script type="module" src="../app/posts/read-posts.js"></script>
-    <script type="module"src="../app/posts/create-post.js"></script>
-    <script src="../app/posts/read-one-post.js"></script>
-    <script type="module"src="../app/posts/update-post.js"></script>
-    <script type="module" src="../app/posts/delete-post.js"></script>
-	<script src="../app/posts/posts.js"></script>
-	<script src="../app/posts/search-posts.js"></script>
-	<!-- <script type="module" src="../app/function/js/showFlash.js"></script> -->
+	{% if user %}
+		<!-- основной файл скриптов -->
+		<script src="../app/posts/app.js"></script>
+		<script type="module" src="../app/posts/read-posts.js"></script>
+		<script type="module"src="../app/posts/create-post.js"></script>
+		<script src="../app/posts/read-one-post.js"></script>
+		<script type="module"src="../app/posts/update-post.js"></script>
+		<script type="module" src="../app/posts/delete-post.js"></script>
+		<script type="module" src="../app/posts/posts.js"></script>
+		<script type="module" src="../app/posts/search-posts.js"></script>
+		<script type="module" src="../app/posts/logout.js"></script>
+		<!-- <script type="module" src="../app/posts/update_user.js"></script> -->
+
+	{% else %}
+		<script src="../app/guests/app.js"></script>
+		<script type="module" src="../app/guests/posts.js"></script>
+		<script type="module" src="../app/guests/read-posts.js"></script>
+		<script type="module" src="../app/guests/search-posts.js"></script>
+		<script type="module" src="../app/guests/create_user.js"></script>
+		<script type="module" src="../app/guests/login.js"></script>
+
+	{% endif %}
+
   </body>
 </html>

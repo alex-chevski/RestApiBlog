@@ -19,11 +19,6 @@ export function readPostsTemplate(data = [], keywords = '') {
 		</div>
 	</form>
 
-   <!-- При нажатии загружается форма создания поста -->
-	<div id="create-post" class="btn btn-primary pull-right m-b-15px create-post-button">
-		<span class="glyphicon glyphicon-plus"></span> Создать пост
-	</div>
-
   <!-- Начало таблицы -->
         <table class="table table-bordered table-hover">
             <!-- Создание заголовков колонок -->
@@ -31,7 +26,7 @@ export function readPostsTemplate(data = [], keywords = '') {
                 <th class="w-25-pct">Заголовок</th>
                 <th class="w-10-pct">Описание</th>
                 <th class="w-10-pct">Дата</th>
-                <th class="w-25-pct text-align-center">Действие</th>
+                <th class="w-25-pct text-align-center">Автор</th>
             </tr>`;
 
   if (data.records) {
@@ -49,27 +44,11 @@ export function readPostsTemplate(data = [], keywords = '') {
             <td>` +
         val.published_date +
         `</td>
-            <!-- Кнопки "действий" -->
-            <td>
-                <!-- Кнопка для просмотра поста -->
-                <button class="btn btn-primary m-r-10px read-one-post-button" data-id="` +
-        val.url_key +
-        `">
-                    <span class="glyphicon glyphicon-eye-open"></span> Просмотр
-                </button>
-                <!-- Кнопка для изменения поста -->
-                <button class="btn btn-info m-r-10px update-post-button" data-id="` +
-        val.url_key +
-        `">
-                    <span class="glyphicon glyphicon-edit"></span> Редактировать
-                </button>
-                <!-- Кнопка для удаления поста -->
-                <button class="btn btn-danger delete-post-button" data-id="` +
-        val.url_key +
-        `">
-                    <span class="glyphicon glyphicon-remove"></span> Удалить
-                </button>
-            </td>
+
+		<td>` +
+        val.author +
+        `</td>
+
         </tr>`;
     });
   }
