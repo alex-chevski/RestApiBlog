@@ -26,7 +26,7 @@ export function readPostsTemplate(data = [], keywords = '') {
                 <th class="w-25-pct">Заголовок</th>
                 <th class="w-10-pct">Описание</th>
                 <th class="w-10-pct">Дата</th>
-                <th class="w-25-pct text-align-center">Автор</th>
+                <th class="w-10-pct text-align-center">Автор</th>
             </tr>`;
 
   if (data.records) {

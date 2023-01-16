@@ -41,6 +41,12 @@ class PostsValidator
 
         $fields = array_diff_key($fields, ['title' => 'xy']);
 
+        if (!preg_match('#^[a-z][\w-]{0,20}$#', $field['title'])) {
+            $this->setErrors('title', "Поле 'title' должно содержать только буквы и цифры");
+
+            return $this->getErrors();
+        }
+
         // Валидация title
         if ($field['title'] && strlen($field['title']) > 3) {
             $post = $this->post->getByUrlKey(str_replace(' ', '-', $field['title']));

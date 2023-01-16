@@ -47,6 +47,14 @@ jQuery(($) => {
         data.published_date +
         `</td>
     </tr>
+
+	<tr>
+		<td>Автор</td>
+		<td>` +
+        data.author +
+        `</td>
+	</tr>
+
 </table>`;
       $('#page-content').html(read_one_post_html);
 

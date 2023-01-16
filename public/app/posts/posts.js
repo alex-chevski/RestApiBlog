@@ -49,6 +49,7 @@ export function readPostsTemplate(data = [], keywords = '') {
             <td>` +
         val.published_date +
         `</td>
+
             <!-- Кнопки "действий" -->
             <td>
                 <!-- Кнопка для просмотра поста -->

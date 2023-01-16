@@ -16,7 +16,7 @@ class PostMapper
     public function create(array $data): bool
     {
         $stm = $this->getConnection()->prepare(
-            'INSERT INTO posts (title, url_key, image_path, content, description, published_date) VALUES(:title, :url_key, :image_path,  :content, :description, :published_date)'
+            'INSERT INTO posts (title, url_key, image_path, content, description, published_date, author) VALUES(:title, :url_key, :image_path,  :content, :description, :published_date, :author)'
         );
 
         return $stm->execute(
@@ -27,6 +27,7 @@ class PostMapper
                 'content' => $data['content'],
                 'description' => $data['description'],
                 'published_date' => date('Y-m-d H:i:s'),
+                'author' => $data['author'],
             ]
         );
     }
