@@ -49,7 +49,7 @@ jQuery(($) => {
     </tr>
 
 	<tr>
-		<td>Автор</td>
+		<td>Последний изменил</td>
 		<td>` +
         data.author +
         `</td>

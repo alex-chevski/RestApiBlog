@@ -55,7 +55,7 @@ class PostsValidator
 
             if ($post) {
                 // сравнить по пользователю если у этого пользователя который создает есть такой заголовок то все ок если нет то ошибка
-                if ($post['author'] !== $user || ($field['title'] === $post['title'] && 'CREATE' === $method)) {
+                if (($post['author'] !== $user && 'CREATE' === $method) || ($field['title'] === $post['title'] && 'CREATE' === $method)) {
                     $this->setErrors('title', "Такое имя {$field['title']} уже существует");
 
                     return $this->getErrors();
