@@ -35,7 +35,7 @@ class PostMapper
     public function update(array $data, string $id_post): bool
     {
         $stm = $this->getConnection()->prepare(
-            'UPDATE posts SET title = :title, url_key = :url_key, content = :content, description = :description, published_date = :published_date WHERE url_key = :id_post'
+            'UPDATE posts SET title = :title, url_key = :url_key, content = :content, description = :description, published_date = :published_date, author = :author WHERE url_key = :id_post'
         );
 
         return $stm->execute([
@@ -44,6 +44,7 @@ class PostMapper
             'content' => $data['content'],
             'description' => $data['description'],
             'published_date' => date('Y-m-d H:i:s'),
+            'author' => $data['author'],
             'id_post' => $id_post,
         ]);
     }

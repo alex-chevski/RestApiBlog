@@ -34,8 +34,10 @@ class PostsValidator
 
     /**
      * validateData.
+     *
+     * @param mixed $cookie
      */
-    public function validateData(array $fields): array
+    public function validateData(array $fields, string $user, string $method): array
     {
         $field = array_filter($fields, fn ($key) => 'title' === $key, ARRAY_FILTER_USE_KEY);
 
@@ -50,14 +52,14 @@ class PostsValidator
         // Валидация title
         if ($field['title'] && strlen($field['title']) > 3) {
             $post = $this->post->getByUrlKey(str_replace(' ', '-', $field['title']));
+
             if ($post) {
                 // сравнить по пользователю если у этого пользователя который создает есть такой заголовок то все ок если нет то ошибка
-                // .....
-                //
-                //
-                $this->setErrors('title', "Такое имя {$field['title']} уже существует");
+                if ($post['author'] !== $user || ($field['title'] === $post['title'] && 'CREATE' === $method)) {
+                    $this->setErrors('title', "Такое имя {$field['title']} уже существует");
 
-                return $this->getErrors();
+                    return $this->getErrors();
+                }
             }
         } else {
             $this->setErrors('title', "Поле 'title' должно быть больше 3 символов");

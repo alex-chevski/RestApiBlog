@@ -24,19 +24,20 @@ class Create
     public function __invoke(Request $request, Response $response): Response
     {
         $cookie = $request->getCookieParams('jwt');
+        $existsToken = $this->token->checkToken($cookie['jwt']) ? true : false;
         // инЪекция
         $requestData = array_map(fn ($val) => htmlspecialchars(strip_tags($val)), $request->getParsedBody());
 
         $uploadFile = $request->getUploadedFiles();
 
         // проверяем данные формы
-        $err = $this->validator->validateData($requestData);
+        $err = $this->validator->validateData($requestData, $this->token->decoded['firstName'], 'CREATE');
         // если ошибок нет данные полные и заголовок уникальный
 
         // проверяем файл который прикрепил пользователь
         empty($err) ? $err = $this->validator->validateImg($uploadFile['post_image']) : $err;
 
-        if (!$err && $this->token->checkToken($cookie['jwt'])) {
+        if (!$err && $existsToken) {
             // если ошибок нет
 
             // сохраняем фотографию
